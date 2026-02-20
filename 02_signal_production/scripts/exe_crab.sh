@@ -3,12 +3,13 @@
 # CRAB execution script for ggH -> H -> Za production
 # Adapted from cms-vbf-hcc-eventproducer for BSM signal generation
 
-JOBINDEX=${1##*=}     # hard coded by crab
-NEVENTS=${2##*=}      # ordered by crab.py script
-NTHREAD=${3##*=}      # ordered by crab.py script
-NAME=${4##*=}         # ordered by crab.py script (e.g., ggH_HZa_mA1p0GeV)
-BEGINSEED=${5##*=}
-MASS_POINT=${6##*=}   # pseudoscalar mass in GeVGRIDPACK=${7##*=}     # gridpack tarball filename
+JOBINDEX=${CRAB_Id:-0}  # provided by CRAB runtime environment
+NEVENTS=${1##*=}       # ordered by crab.py scriptArgs
+NTHREAD=${2##*=}
+NAME=${3##*=}          # e.g., ggH_HZa_mA1_0GeV
+BEGINSEED=${4##*=}
+MASS_POINT=${5##*=}    # pseudoscalar mass in GeV
+GRIDPACK=${6##*=}      # gridpack tarball filename
 LUMISTART=$((${BEGINSEED} + ${JOBINDEX}))
 EVENTSTART=$(((${BEGINSEED} + ${JOBINDEX}) * NEVENTS))
 SEED=$((((${BEGINSEED} + ${JOBINDEX})) * NTHREAD * 4 + 1001))
@@ -216,9 +217,12 @@ rm -f RunIII2024Summer24DRPremix_${NAME}_${JOBINDEX}.root
 rm -f RunIII2024Summer24RECO_${NAME}_${JOBINDEX}.root
 rm -f RunIII2024Summer24MiniAODv6_${NAME}_${JOBINDEX}.root
 
+# Rename to fixed output name expected by CRAB config
+mv RunIII2024Summer24NanoAODv15_${NAME}_${JOBINDEX}.root RunIII2024Summer24NanoAODv15_${NAME}.root
+
 echo ""
 echo "========================================"
 echo "Production completed successfully!"
 echo "========================================"
 echo "Output file:"
-ls -lh RunIII2024Summer24NanoAODv15_${NAME}_${JOBINDEX}.root
+ls -lh RunIII2024Summer24NanoAODv15_${NAME}.root

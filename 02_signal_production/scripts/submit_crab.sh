@@ -68,14 +68,13 @@ config.JobType.psetName = 'pset_dummy.py'  # Dummy, not used with scriptExe
 config.JobType.scriptExe = '../scripts/exe_crab.sh'
 config.JobType.inputFiles = ['../fragments/${FRAGMENT}',
                               '../../01_gridpacks/${GRIDPACK}']
-config.JobType.outputFiles = ['RunIII2024Summer24NanoAODv15_${sample_name}_\${jobIndex}.root']
+config.JobType.outputFiles = ['RunIII2024Summer24NanoAODv15_${sample_name}.root']
 config.JobType.maxMemoryMB = 8000
 config.JobType.numCores = 4
 config.JobType.maxJobRuntimeMin = 1200  # 20 hours
 
-# Script arguments
+# Script arguments (job index provided by CRAB via \$CRAB_Id env var)
 config.JobType.scriptArgs = [
-    'jobIndex=\${jobIndex}',
     'nEvents=${NEVENTS_PER_JOB}',
     'nThreads=4',
     'sampleName=${sample_name}',
@@ -100,10 +99,14 @@ EOF
     echo "Created CRAB config: $cfg_file"
 }
 
-# Create a dummy pset (required by CRAB even though we use scriptExe)
-cat > "${CRAB_CFG_DIR}/pset_dummy.py" << 'EOF'
+# Create a dummy pset in scripts/ dir (CRAB resolves psetName relative to CWD)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cat > "${SCRIPT_DIR}/pset_dummy.py" << 'EOF'
 import FWCore.ParameterSet.Config as cms
 process = cms.Process('DUMMY')
+process.source = cms.Source("EmptySource")
+process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(1))
+process.options = cms.untracked.PSet(numberOfThreads=cms.untracked.uint32(4))
 EOF
 
 # Generate CRAB configs for all mass points
