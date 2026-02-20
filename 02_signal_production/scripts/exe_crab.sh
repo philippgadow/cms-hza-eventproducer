@@ -268,8 +268,11 @@ cat > FrameworkJobReport.xml << XMLEOF
   <GUID>$(python3 -c "import uuid; print(str(uuid.uuid4()).upper())")</GUID>
   <OutputModuleClass>PoolOutputModule</OutputModuleClass>
   <TotalEvents>${NEVENTS}</TotalEvents>
+  <BranchHash>0</BranchHash>
   <Runs>
   </Runs>
+  <Inputs>
+  </Inputs>
 </File>
 <File>
   <LFN/>
@@ -279,8 +282,11 @@ cat > FrameworkJobReport.xml << XMLEOF
   <GUID>$(python3 -c "import uuid; print(str(uuid.uuid4()).upper())")</GUID>
   <OutputModuleClass>PoolOutputModule</OutputModuleClass>
   <TotalEvents>${NEVENTS}</TotalEvents>
+  <BranchHash>0</BranchHash>
   <Runs>
   </Runs>
+  <Inputs>
+  </Inputs>
 </File>
 <ReadBranches>
 </ReadBranches>
