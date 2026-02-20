@@ -148,30 +148,93 @@ Validated with 100 events in NanoAOD (Feb 2026): 79% gg, 20% μμ, 1% dd̄ — s
 
 ## Customization
 
-### Mass Points
-Edit `scripts/submit_crab.sh`:
-```bash
-MASS_POINTS=(0.5 0.75 1.0 1.5 2.0 2.5 3.0 3.5 4.0 8.0)
-```
+### 1. User-specific settings (MUST change)
 
-### Z Decay Modes
-Edit `fragments/ggH_HZa_fragment.py`:
-```python
-'23:onIfAny = 11 13',  # Only e and μ (exclude τ)
-```
+These are in **`scripts/submit_crab.sh`**, lines 12–13:
 
-### Event Filters
-Add after generator in the fragment:
-```python
-muonFilter = cms.EDFilter("MCParticlePairFilter",
-    ParticleID1 = cms.untracked.vint32(13),
-    ParticleID2 = cms.untracked.vint32(-13),
-    MinPt = cms.untracked.vdouble(5.0, 5.0),
-    MaxEta = cms.untracked.vdouble(2.5, 2.5),
-    Status = cms.untracked.vint32(1, 1),
-)
-ProductionFilterSequence = cms.Sequence(generator * muonFilter)
-```
+| Variable | Current value | Description |
+|----------|--------------|-------------|
+| `SITE` | `T2_DE_DESY` | CRAB storage site. Must be a T2/T3 where you have write permission. Common choices: `T2_DE_DESY`, `T2_CH_CERN`, `T2_US_Wisconsin`, etc. |
+| `STORAGE_SITE` | `/store/user/$USER/ggH_HZa_signals` | Output LFN path. `$USER` is auto-resolved but you may want a different directory structure. |
+
+### 2. Physics settings (change per analysis)
+
+These are in **`scripts/submit_crab.sh`**, lines 9–11:
+
+| Variable | Current value | Description |
+|----------|--------------|-------------|
+| `MASS_POINTS` | `(0.5 0.75 1.0 1.5 2.0 2.5 3.0 3.5 4.0 8.0)` | Pseudoscalar mass points in GeV |
+| `NEVENTS_PER_JOB` | `1000` | Events per CRAB job |
+| `NJOBS` | `100` | Jobs per mass point (total events = `NEVENTS_PER_JOB × NJOBS`) |
+| `beginSeed` | `1000` | Random seed offset (line 81). Change if producing additional statistics to avoid duplicate events. |
+
+Also review the **fragment** in `fragments/ggH_HZa_fragment.py`:
+- Higgs decay channel: `25:addChannel = 1 1.0 100 23 36` (H → Z a)
+- A0 decay modes: `36:onMode = on` (natural Pythia8 ResonanceA0 decays)
+- COM energy: `comEnergy = 13600`
+- PDF set: `PDF:pSet = LHAPDF6:NNPDF31_nnlo_as_0118`
+
+### 3. Campaign / CMSSW settings (change per MC campaign)
+
+These are centralized at the top of **`scripts/exe_crab.sh`**, lines 9–27:
+
+| Variable | Current value | Description |
+|----------|--------------|-------------|
+| `ARCH` | `el9_amd64_gcc12` | SCRAM architecture |
+| `RELEASE_GS` | `CMSSW_14_0_19` | Release for LHE + GEN + SIM |
+| `RELEASE_DR` | `CMSSW_14_0_21` | Release for DIGI + HLT + RECO |
+| `RELEASE_MINI` | `CMSSW_15_0_2` | Release for MiniAOD + NanoAOD |
+| `GT_GS` | `140X_mcRun3_2024_realistic_v26` | Global tag for GEN-SIM |
+| `GT_DR` | `140X_mcRun3_2024_realistic_v26` | Global tag for DIGI + HLT + RECO |
+| `GT_MINI` | `150X_mcRun3_2024_realistic_v2` | Global tag for MiniAOD + NanoAOD |
+| `ERA` | `Run3_2024` | CMS era modifier |
+| `HLT_MENU` | `2024v14` | HLT menu version |
+| `PREMIX_DATASET` | `/Neutrino_E-10_gun/RunIIISummer24PrePremix-...` | Pileup premix dataset (DBS path) |
+
+The same variables exist in **`scripts/run_fullchain.sh`** (lines 38–48) for local testing.
+**Keep both files in sync when changing campaign settings.**
+
+To find the correct values for a new campaign, consult:
+- [McM](https://cms-pdmv-prod.web.cern.ch/mcm/) — look up an existing request in the target campaign
+- [CMS Talk MC production](https://cms-talk.web.cern.ch/c/generators/mc-production/) — announcements for new campaigns
+
+### 4. Campaign naming (cosmetic, but must be consistent)
+
+In **`scripts/exe_crab.sh`** (lines 23–27) and **`scripts/submit_crab.sh`** (line 14):
+
+| Variable | Current value | Used in |
+|----------|--------------|---------|
+| `CAMPAIGN` | `RunIII2024Summer24` | `submit_crab.sh` — CRAB request/dataset naming |
+| `CAMPAIGN_GS` | `RunIII2024Summer24wmLHEGS` | `exe_crab.sh` — intermediate file naming |
+| `CAMPAIGN_DR` | `RunIII2024Summer24DRPremix` | `exe_crab.sh` |
+| `CAMPAIGN_RECO` | `RunIII2024Summer24RECO` | `exe_crab.sh` |
+| `CAMPAIGN_MINI` | `RunIII2024Summer24MiniAODv6` | `exe_crab.sh` + `submit_crab.sh` (outputFiles) |
+| `CAMPAIGN_NANO` | `RunIII2024Summer24NanoAODv15` | `exe_crab.sh` + `submit_crab.sh` (outputFiles) |
+
+> **Important**: The `outputFiles` list in `submit_crab.sh` (line 71–72) must match the
+> `CAMPAIGN_MINI` and `CAMPAIGN_NANO` naming used in `exe_crab.sh`. If you change campaign
+> names, update both files.
+
+### 5. Resource settings (tune as needed)
+
+In **`scripts/submit_crab.sh`**:
+
+| Setting | Current value | Description |
+|---------|--------------|-------------|
+| `numCores` (line 75) | `4` | CPU cores per job. Must match `nThreads` in scriptArgs. |
+| `maxMemoryMB` (line 74) | `8000` | Memory limit. Scale with cores (~2 GB/core). |
+| `maxJobRuntimeMin` (line 76) | `1200` | Max walltime in minutes (20h). |
+
+### 6. Gridpack (change for different process/mass)
+
+| File | Current value |
+|------|--------------|
+| `submit_crab.sh` line 15 | `gg_H_quark-mass-effects_el9_amd64_gcc12_CMSSW_13_3_0_ggH_M125.tgz` |
+
+Must match an actual tarball in `01_gridpacks/`. If generating a new gridpack
+(e.g. different Higgs mass), use `01_gridpacks/generate_gridpack.sh`.
+
+
 
 ## References
 

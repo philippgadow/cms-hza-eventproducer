@@ -68,7 +68,8 @@ config.JobType.psetName = 'pset_dummy.py'  # Dummy, not used with scriptExe
 config.JobType.scriptExe = '../scripts/exe_crab.sh'
 config.JobType.inputFiles = ['../fragments/${FRAGMENT}',
                               '../../01_gridpacks/${GRIDPACK}']
-config.JobType.outputFiles = ['RunIII2024Summer24NanoAODv15_${sample_name}.root']
+config.JobType.outputFiles = ['RunIII2024Summer24MiniAODv6_${sample_name}.root',
+                              'RunIII2024Summer24NanoAODv15_${sample_name}.root']
 config.JobType.maxMemoryMB = 8000
 config.JobType.numCores = 4
 config.JobType.maxJobRuntimeMin = 1200  # 20 hours
