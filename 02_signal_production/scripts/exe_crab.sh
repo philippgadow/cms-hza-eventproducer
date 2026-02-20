@@ -191,7 +191,7 @@ cmsDriver.py \
   --conditions 150X_mcRun3_2024_realistic_v2 \
   --step PAT \
   --geometry DB:Extended \
-  --era Run3_2024,run3_miniAOD_MesonGamma \
+  --era Run3_2024 \
   --mc \
   --nThreads $NTHREAD \
   -n $NEVENTS || exit $?
@@ -210,7 +210,7 @@ cmsDriver.py \
   --conditions 150X_mcRun3_2024_realistic_v2 \
   --step NANO \
   --geometry DB:Extended \
-  --era Run3_2024,run3_nanoAOD_164 \
+  --era Run3_2024 \
   --mc \
   --nThreads $NTHREAD \
   -n $NEVENTS || exit $?
