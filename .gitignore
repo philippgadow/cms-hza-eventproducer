@@ -14,6 +14,10 @@ POWHEG-BOX-V2/
 # Fullchain intermediate outputs (keep only NanoAOD)
 02_signal_production/scripts/fullchain_*/
 
+# CRAB runtime artifacts
+02_signal_production/scripts/crab_projects_*/
+02_signal_production/scripts/crab.log
+
 # Compressed and raw logs
 *.log
 *.log.gz

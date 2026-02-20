@@ -9,7 +9,7 @@ set -e
 MASS_POINTS=(0.5 0.75 1.0 1.5 2.0 2.5 3.0 3.5 4.0 8.0)  # GeV
 NEVENTS_PER_JOB=1000
 NJOBS=100
-SITE="T2_CH_CERN"
+SITE="T2_DE_DESY"
 STORAGE_SITE="/store/user/$USER/ggH_HZa_signals"
 CAMPAIGN="RunIII2024Summer24"
 GRIDPACK="gg_H_quark-mass-effects_el9_amd64_gcc12_CMSSW_13_3_0_ggH_M125.tgz"

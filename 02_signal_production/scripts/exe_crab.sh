@@ -4,12 +4,18 @@
 # Adapted from cms-vbf-hcc-eventproducer for BSM signal generation
 
 JOBINDEX=${CRAB_Id:-0}  # provided by CRAB runtime environment
-NEVENTS=${1##*=}       # ordered by crab.py scriptArgs
-NTHREAD=${2##*=}
-NAME=${3##*=}          # e.g., ggH_HZa_mA1_0GeV
-BEGINSEED=${4##*=}
-MASS_POINT=${5##*=}    # pseudoscalar mass in GeV
-GRIDPACK=${6##*=}      # gridpack tarball filename
+
+# Parse key=value arguments (CRAB prepends jobId as $1, so use key-based parsing)
+for arg in "$@"; do
+    case "$arg" in
+        nEvents=*)    NEVENTS="${arg#*=}" ;;
+        nThreads=*)   NTHREAD="${arg#*=}" ;;
+        sampleName=*) NAME="${arg#*=}" ;;
+        beginSeed=*)  BEGINSEED="${arg#*=}" ;;
+        massPoint=*)  MASS_POINT="${arg#*=}" ;;
+        gridpack=*)   GRIDPACK="${arg#*=}" ;;
+    esac
+done
 LUMISTART=$((${BEGINSEED} + ${JOBINDEX}))
 EVENTSTART=$(((${BEGINSEED} + ${JOBINDEX}) * NEVENTS))
 SEED=$((((${BEGINSEED} + ${JOBINDEX})) * NTHREAD * 4 + 1001))
