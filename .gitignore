@@ -1,0 +1,31 @@
+# CMSSW releases (large, reproducible from setup scripts)
+CMSSW_*/
+
+# POWHEG source (cloned during gridpack generation)
+POWHEG-BOX-V2/
+
+# Gridpack generation working directories
+01_gridpacks/test_cms_*/
+01_gridpacks/run_*/
+
+# Gridpack tarballs (large binary, keep tracked separately or in EOS)
+01_gridpacks/*.tgz
+
+# Fullchain intermediate outputs (keep only NanoAOD)
+02_signal_production/scripts/fullchain_*/
+
+# Compressed and raw logs
+*.log
+*.log.gz
+
+# ROOT files in top-level (stray outputs)
+*.root
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store
+Thumbs.db
