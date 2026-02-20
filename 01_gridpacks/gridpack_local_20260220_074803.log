@@ -1,0 +1,440 @@
+nohup: ignoring input
+==========================================
+POWHEG Gridpack Generation
+==========================================
+Mode:    local
+CMSSW:   CMSSW_13_3_0
+Process: gg_H_quark-mass-effects
+Folder:  ggH_M125
+
+Setting up CMSSW environment...
+
+Physics settings from powheg.input:
+  ebeam1 6800     ! energy of beam 1
+  ebeam2 6800    ! energy of beam 2
+  hmass 125d0            ! Higgs boson mass
+  lhans1 325300       ! pdf set for hadron 1 (LHA numbering)
+  => sqrt(s) = 13600 GeV
+==========================================
+
+[Clean] Removing old grid files from /afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/ggH_M125/POWHEG-BOX/gg_H_quark-mass-effects...
+  Done.
+
+[Setup] Copying powheg.input to POWHEG working directories...
+  Done.
+
+[Local] Running grid generation locally (this will take ~30-60 min)...
+  Started at: Fri Feb 20 07:48:04 CET 2026
+
+SVN status Begin
+/afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/ggH_M125/POWHEG-BOX/gg_H_quark-mass-effects
+no svn repository found
+/afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/ggH_M125/POWHEG-BOX
+URL: svn://powhegbox.mib.infn.it/trunk/POWHEG-BOX-V2
+Rev.4122
+Warning: not a clean version:
+M       include/pwhg_lhrwgt.h
+M       include/pwhg_rwl.h
+M       lhefwrite.f
+M       rwl_weightlists.f
+SVN status End
+  found input file powheg.input
+  opened powheg.input
+  powheginput keyword compress_lhe         absent; set to   -1000000.0000000000     
+  powheginput keyword compress_upb         absent; set to   -1000000.0000000000     
+  powheginput keyword testplots            set to    1.0000000000000000     
+  powheginput keyword numevts              set to    500.00000000000000     
+  powheginput keyword storemintupb         absent; set to   -1000000.0000000000     
+  powheginput keyword fastbtlbound         absent; set to   -1000000.0000000000     
+  powheginput keyword mintupbratlim        absent; set to   -1000000.0000000000     
+  powheginput keyword StoredubNoOutliers   absent; set to   -1000000.0000000000     
+  powheginput keyword maxseeds             absent; set to   -1000000.0000000000     
+  powheginput keyword manyseeds            absent; set to   -1000000.0000000000     
+  powheginput keyword rwl_add              absent; set to   -1000000.0000000000     
+  powheginput keyword rwl_format_rwgt      absent; set to   -1000000.0000000000     
+  powheginput keyword flg_debug            absent; set to   -1000000.0000000000     
+  powheginput keyword withnegweights       set to    1.0000000000000000     
+  powheginput keyword bornsuppfact         absent; set to   -1000000.0000000000     
+  powheginput keyword ptsupp               absent; set to   -1000000.0000000000     
+  powheginput keyword doublefsr            absent; set to   -1000000.0000000000     
+  powheginput keyword smartsig             absent; set to   -1000000.0000000000     
+  powheginput keyword withsubtr            absent; set to   -1000000.0000000000     
+  powheginput keyword hfact                set to    60.000000000000000     
+  powheginput keyword withdamp             absent; set to   -1000000.0000000000     
+  powheginput keyword bornzerodamp         absent; set to   -1000000.0000000000     
+  powheginput keyword hdamp                absent; set to   -1000000.0000000000     
+  powheginput keyword bornonly             absent; set to   -1000000.0000000000     
+  powheginput keyword LOevents             absent; set to   -1000000.0000000000     
+  powheginput keyword novirtual            absent; set to   -1000000.0000000000     
+  powheginput keyword iseed                set to    42.000000000000000     
+  powheginput keyword rand1                absent; set to   -1000000.0000000000     
+  powheginput keyword rand2                absent; set to   -1000000.0000000000     
+  powheginput keyword iupperisr            absent; set to   -1000000.0000000000     
+  powheginput keyword iupperfsr            absent; set to   -1000000.0000000000     
+  powheginput keyword pdfreweight          set to    0.0000000000000000     
+  powheginput keyword storeinfo_rwgt       set to    0.0000000000000000     
+  powheginput keyword compute_rwgt         set to    0.0000000000000000     
+  powheginput keyword minlo                absent; set to   -1000000.0000000000     
+  powheginput keyword nnlops               absent; set to   -1000000.0000000000     
+  powheginput keyword alphas_from_pdf      absent; set to   -1000000.0000000000     
+  powheginput keyword alphas_from_lhapdf   absent; set to   -1000000.0000000000     
+  powheginput keyword ubexcess_correct     absent; set to   -1000000.0000000000     
+ RM48 INITIALIZED:        42           0         0
+  powheginput keyword par_diexp            absent; set to   -1000000.0000000000     
+  powheginput keyword par_dijexp           absent; set to   -1000000.0000000000     
+  powheginput keyword par_2gsupp           absent; set to   -1000000.0000000000     
+  powheginput keyword ih1                  set to    1.0000000000000000     
+  powheginput keyword ih2                  set to    1.0000000000000000     
+  powheginput keyword lhans1               set to    325300.00000000000     
+  powheginput keyword lhans2               set to    325300.00000000000     
+  powheginput keyword lhapdf6maxsets       absent; set to   -1000000.0000000000     
+LHAPDF 6.4.0 loading /cvmfs/cms.cern.ch/el9_amd64_gcc12/external/lhapdf/6.4.0-44d7c928e8249bf1a4f9ca89a09c15ce/share/LHAPDF/NNPDF31_nnlo_as_0118_mc_hessian_pdfas/NNPDF31_nnlo_as_0118_mc_hessian_pdfas_0000.dat
+NNPDF31_nnlo_as_0118_mc_hessian_pdfas PDF set, member #0, version 1; LHAPDF ID = 325300
+  check: alpha_s(Mz)=  0.11800215829284905     
+  alpha_s order (0,1,2):            2
+  Lambda 5 is   0.20839090910744684     
+  powheginput keyword ebeam1               set to    6800.0000000000000     
+  powheginput keyword ebeam2               set to    6800.0000000000000     
+  powheginput keyword bornktmin            absent; set to   -1000000.0000000000     
+  powheginput keyword ptsqmin              absent; set to   -1000000.0000000000     
+  powheginput keyword charmthr             absent; set to   -1000000.0000000000     
+  powheginput keyword bottomthr            absent; set to   -1000000.0000000000     
+  powheginput keyword renscfact            set to    1.0000000000000000     
+  powheginput keyword facscfact            set to    1.0000000000000000     
+  powheginput keyword evenmaxrat           absent; set to   -1000000.0000000000     
+  powheginput keyword hdecaymode           set to   -1.0000000000000000     
+  powheginput keyword model                set to    0.0000000000000000     
+  powheginput keyword massren              set to    0.0000000000000000     
+ On-shell mass renormalization scheme selected.
+ SM selected
+  powheginput keyword hmass                set to    125.00000000000000     
+  powheginput keyword hdecaywidth          set to    0.0000000000000000     
+  powheginput keyword hwidth               set to    4.0699999999999998E-003
+  powheginput keyword gfermi               set to    1.1663700000000000E-005
+  powheginput keyword nnlo                 absent; set to   -1000000.0000000000     
+ NNLO rescaling disabled
+ lambda  0.20839090910744684                5
+  powheginput keyword topmass              set to    172.50000000000000     
+ Top Quark enabled
+  powheginput keyword bottommass           set to    4.7500000000000000     
+ Bottom Quark enabled
+  powheginput keyword charmmass            absent; set to   -1000000.0000000000     
+  powheginput keyword zerowidth            set to    0.0000000000000000     
+  powheginput keyword masswindow           set to    9999.0000000000000     
+ *************************************
+ H mass =    125.00000000000000     
+ H width =    4.0699999999999998E-003
+ *************************************
+   84.304069999999996       < M_H <   165.69593000000000     
+ *************************************
+  powheginput keyword ew                   set to    1.0000000000000000     
+ 2-loops EW corrections enabled
+ Starting cached EW corrections array initialization
+ Finished cached EW corrections array initialization
+ Active fermions
+           2
+ fermion masses
+   172.50000000000000        4.7500000000000000        0.0000000000000000     
+ fermion couplings
+   1.0000000000000000        1.0000000000000000        0.0000000000000000     
+ 1/alphaem =    137.03599967900001     
+ sthw2 =   0.22264585341299603     
+ GF =    1.1663700000000000E-005
+  **** Minimum maxalr allowed:           21  *********
+  **** Number of born graphs:             1
+  **** Number of real graphs:            31
+  **** Number of regular regions:          10
+  powheginput keyword softtest             absent; set to   -1000000.0000000000     
+  powheginput keyword colltest             absent; set to   -1000000.0000000000     
+  powheginput keyword chklimseed           absent; set to   -1000000.0000000000     
+  powheginput keyword tinyForLims          absent; set to   -1000000.0000000000     
+  powheginput keyword bwshape              set to    3.0000000000000000     
+ *******************************************
+ *******************************************
+ ****        COMPLEX-POLE SCHEME        ****
+ ****          Passarino et al          ****
+ *******************************************
+ *******************************************
+    
+ *
+  *
+   * --- cpHTO v 1.1 (May 2012) by Giampiero 
+  *
+ *
+    
+    
+ ******* OUTPUT **************************************
+     
+ top mass [GeV]          0.17250E+03
+ muh      [GeV]          0.12500E+03
+ GH OS    [GeV] =       0.4030000E-02
+    
+ *****************************************************
+    
+    
+ gH Total [GeV] =        0.4029644E-02
+    
+ *** Bar scheme **************************************
+    
+ MHB      [GeV] =          0.12500E+03
+ GHB      [GeV] =          0.40296E-02
+    
+ *****************************************************
+    
+    
+  powheginput keyword charmthrpdf          absent; set to   -1000000.0000000000     
+  powheginput keyword bottomthrpdf         absent; set to   -1000000.0000000000     
+ ===============================
+ LHAPDF called in POWHEG
+ pdf cutoff factor =    1.0000000000000000     
+ pdf cutoff [GeV] =    1.6499999999999999     
+ ===============================
+  powheginput keyword runningscale         set to    1.0000000000000000     
+ 
+ *****************************************
+     runningscale = 1:                    
+     Factorization and renormalization    
+     scales set to the H virtuality       
+ *****************************************
+  powheginput keyword compare_vecsb_ep     absent; set to   -1000000.0000000000     
+ RM48 INITIALIZED:        42           2         0
+ RM48IN SKIPPING OVER               2
+ Writing bornequiv file...
+ Done
+  powheginput keyword writeequivfile       absent; set to   -1000000.0000000000     
+  powheginput keyword compare_vecsr_ep     absent; set to   -1000000.0000000000     
+ RM48 INITIALIZED:        42        2396         0
+ RM48IN SKIPPING OVER            2396
+ Writing realequivregions-btl file...
+ Done
+  powheginput keyword olddij               absent; set to   -1000000.0000000000     
+ RM48 INITIALIZED:        42           0         0
+  POWHEG:  
+  Check of soft/collinear limits performed
+  Results in file pwhg_checklimits
+  powheginput keyword parallelstage        absent; set to   -1000000.0000000000     
+  powheginput keyword use-old-grid         set to    1.0000000000000000     
+
+  POWHEG: initialization
+  Computing the integral of the absolute value
+  of the cross section to set up the adaptive grid
+  powheginput keyword ncall1               set to    550000.00000000000     
+  powheginput keyword ncall1rm             absent; set to   -1000000.0000000000     
+  powheginput keyword itmx1                set to    7.0000000000000000     
+  powheginput keyword itmx1rm              absent; set to   -1000000.0000000000     
+  result +- errtot (picobarn) for each iteration
+  powheginput keyword fixedgrid            absent; set to   -1000000.0000000000     
+  powheginput keyword btildeborn           absent; set to   -1000000.0000000000     
+  powheginput keyword btildevirt           absent; set to   -1000000.0000000000     
+  powheginput keyword btildecoll           absent; set to   -1000000.0000000000     
+  powheginput keyword btildereal           absent; set to   -1000000.0000000000     
+  powheginput keyword compare_vecsv_ep     absent; set to   -1000000.0000000000     
+ RM48 INITIALIZED:        42          10         0
+ RM48IN SKIPPING OVER              10
+ Writing virtequiv file...
+ Done
+  powheginput keyword btlscalereal         absent; set to   -1000000.0000000000     
+ ***************************************
+  Warning: hfact is here for backward
+  compatibility with older inplementations
+  New implementations will use hdamp and
+  bornzerodamp independently.
+ ***************************************
+ ***************************************
+  Using a damping factor h**2/(pt2+h**2)
+  to separate real contributions between
+  Sudakov and remnants    h=   60.000000000000000       GeV   
+ ***************************************
+  powheginput keyword btlscalect           absent; set to   -1000000.0000000000     
+   27.486153624054928        3.7929394851563894E-002
+   27.431650043404449        1.6983074127197642E-002
+   27.417088125459461        1.1818908139500281E-002
+   27.447187323476008        2.2017413121215561E-002
+   27.432539471170848        1.1982986274475705E-002
+   27.437529824644049        2.5512529441841427E-002
+   27.427753132053819        1.2993742044582831E-002
+  Computing the integral of the remnant cross section
+  to set up the adaptive grid
+ RM48 INITIALIZED:        42    38500010         0
+ RM48IN SKIPPING OVER        38500010
+   5.6672254129793727        1.4398395475359978E-002
+   5.6291044190520134        8.6644881272901781E-003
+   5.6375984144430529        8.9038991979020609E-003
+   5.6310305999789918        7.8065857492864155E-003
+   5.6408716415134332        8.9309172937644832E-003
+   5.6383452617973990        1.0571242458125402E-002
+   5.6447053310852997        1.1102350639289396E-002
+  Importance sampling x grids generated and stored
+  powheginput keyword foldcsi              set to    2.0000000000000000     
+  powheginput keyword foldy                set to    5.0000000000000000     
+  powheginput keyword foldphi              set to    2.0000000000000000     
+  powheginput keyword check_bad_st2        absent; set to   -1000000.0000000000     
+  POWHEG: Computing pos.+|neg.|  weight contribution to inclusive cross section
+  powheginput keyword ncall2               set to    75000.000000000000     
+  powheginput keyword itmx2                set to    5.0000000000000000     
+  powheginput keyword ncall2rm             absent; set to   -1000000.0000000000     
+  powheginput keyword itmx2rm              absent; set to   -1000000.0000000000     
+  powheginput keyword stage2init           absent; set to   -1000000.0000000000     
+   27.028029706483693        2.8221401927418906E-002
+   27.044077829853862        3.0845112042248112E-002
+   27.048640032057772        2.4026866959009636E-002
+   27.053433461272245        2.2613463425471624E-002
+   27.057160855547600        3.3028402550455249E-002
+ tot:   27.033507023988420      +-   1.2607011515608876E-002
+ abs:   27.046268377043191      +-   1.2533809865160207E-002
+ pos:   27.039887700515806      +-   1.1600083424944650E-002
+ neg:   6.3806765273644074E-003 +-   4.8429979433885001E-003
+  powheginput keyword ubsigmadetails       absent; set to   -1000000.0000000000     
+ btilde pos.   weights:   27.039887700515806       +-   1.1600083424944650E-002
+ btilde |neg.| weights:   6.3806765273644074E-003  +-   4.8429979433885001E-003
+ btilde total (pos.-|neg.|):   27.033507023988420       +-   1.2607011515608876E-002
+  POWHEG: Computing remnant and/or regular remnants
+   5.6552770867773017        2.2886075149565782E-002
+   5.6395361881763169        2.0806761230097968E-002
+   5.6241361962998377        2.1204288394734504E-002
+   5.6814316521290058        3.0067695266493336E-002
+   5.6660299320313499        2.5543041064987254E-002
+  Remnant cross section in pb   5.6532822110827627      +-   1.0886423602564052E-002
+  total (btilde+remnants) cross section in pb   32.686789235071181      +-   1.6656859194012493E-002
+  negative weight fraction:   1.9513040432064542E-004
+  powheginput keyword nubound              set to    50000.000000000000     
+  powheginput keyword iymax                set to    1.0000000000000000     
+  powheginput keyword icsimax              set to    1.0000000000000000     
+  powheginput keyword xupbound             set to    2.0000000000000000     
+  powheginput keyword use-old-ubound       set to    1.0000000000000000     
+
+  POWHEG: computing normalization of upper bounding function for radiation
+
+ Initializing grids for the generation of the underlying
+ Born configurations according to the Born cross section
+   13.757947985768141        1.5672853728451838E-002
+   13.760533064089950        4.6106555140993533E-003
+   13.759501944341677        4.4814403050753363E-003
+   13.759466927540924        4.4858764934817422E-003
+   13.761085718017940        4.7584635240095902E-003
+   13.762184517730061        4.6510866780775503E-003
+   13.761075251099760        4.4734743665861667E-003
+   13.755639625422340        1.1910882575424615E-002
+   13.775608715805570        1.2759587722635312E-002
+   13.783000761070664        1.1982749186004123E-002
+   13.759601505773043        1.2055631266281241E-002
+   13.775850268742813        1.2158681242655432E-002
+ RM48 INITIALIZED:        42   101400009         0
+ RM48IN SKIPPING OVER       101400009
+ Writing realequivregions-rad file...
+ Done
+  Normalization of upper bounding function for radiation computed and stored
+ POWHEG: efficiency in the generation of the Born variables =  0.73987481318160964     
+  powheginput keyword skipextratests       absent; set to   -1000000.0000000000     
+ RM48 INITIALIZED:        42   101937895         0
+ RM48IN SKIPPING OVER       101937895
+ POWHEG: efficiency in the generation of the remnant variables =  0.19607843137254902     
+  powheginput keyword clobberlhe           set to    1.0000000000000000     
+  powheginput keyword lhrwgt_group_name    set to ""
+  powheginput keyword lhrwgt_group_combine set to ""
+  powheginput keyword lhrwgt_id            set to ""
+  powheginput keyword lhrwgt_descr         set to ""
+
+  POWHEG: generating events
+  powheginput keyword fullrwgt             absent; set to   -1000000.0000000000     
+  powheginput keyword rwl_file             set to ""
+  powheginput keyword noevents             absent; set to   -1000000.0000000000     
+  powheginput keyword testsuda             absent; set to   -1000000.0000000000     
+  powheginput keyword radregion            absent; set to   -1000000.0000000000     
+Thanks for using LHAPDF 6.4.0. Please make sure to cite the paper:
+  Eur.Phys.J. C75 (2015) 3, 132  (http://arxiv.org/abs/1412.7420)
+2429.60user 4.73system 40:42.90elapsed 99%CPU (0avgtext+0avgdata 13676maxresident)k
+0inputs+0outputs (259major+4430minor)pagefaults 0swaps
+
+  Finished at: Fri Feb 20 08:28:47 CET 2026
+
+[Verify] Checking for grid files in /afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/ggH_M125/POWHEG-BOX/gg_H_quark-mass-effects...
+  ✓ pwggrid.dat (13K)
+  ✓ pwgubound.dat (1.0K)
+  All pwg*.dat files:
+-rw-r--r--. 1 pgadow zh  485 Feb 20 08:28 /afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/ggH_M125/POWHEG-BOX/gg_H_quark-mass-effects/pwg-stat.dat
+-rw-r--r--. 1 pgadow zh 1.3K Feb 20 08:28 /afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/ggH_M125/POWHEG-BOX/gg_H_quark-mass-effects/pwgcounters.dat
+-rw-r--r--. 1 pgadow zh  13K Feb 20 08:28 /afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/ggH_M125/POWHEG-BOX/gg_H_quark-mass-effects/pwggrid.dat
+-rw-r--r--. 1 pgadow zh  146 Feb 20 08:28 /afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/ggH_M125/POWHEG-BOX/gg_H_quark-mass-effects/pwgubound.dat
+-rw-r--r--. 1 pgadow zh 4.1K Feb 20 08:08 /afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/ggH_M125/POWHEG-BOX/gg_H_quark-mass-effects/pwgxgrid.dat
+
+[Copy] Copying grid files to /afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/ggH_M125...
+  Done.
+
+[Tarball] Creating gridpack (stage 9)...
+Processing folder: 
+/afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/ggH_M125
+ls: cannot access '*fullgrid-rm*': No such file or directory
+ls: cannot access '*fullgrid-btl*': No such file or directory
+ls: cannot access '*st3-stat*': No such file or directory
+cp: '/afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/ggH_M125/pwgubound.dat' and '/afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/ggH_M125/pwgubound.dat' are the same file
+sed: can't read nnlopsreweighter.input: No such file or directory
+Packing... /afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg/gg_H_quark-mass-effects_el9_amd64_gcc12_CMSSW_13_3_0_ggH_M125.tgz
+Fri Feb 20 08:28:52 CET 2026
+Done.
+
+RUNNING PARAMS: parstage = 9 , xgrid = 1 , folderName = ggH_M125
+                Total Events = 10000
+                Number of Events = 2000
+                powheg input cfg file : powheg.input
+                powheg process name : gg_H_quark-mass-effects
+                working folder : ggH_M125
+                EOS folder (stages 4,7,8) : NONE/ggH_M125
+                base folder : /afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/CMSSW_13_3_0/src/genproductions/bin/Powheg
+                forDAG : 0
+                scram_arch (set from environment) : el9_amd64_gcc12
+                SVN : 0
+
+Creating tarball distribution for ggH_M125_gg_H_quark-mass-effects.tgz
+
+
+[Patch] Removing rwl_file from gridpack powheg.input...
+  Done.
+
+==========================================
+Gridpack ready!
+  /afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/gg_H_quark-mass-effects_el9_amd64_gcc12_CMSSW_13_3_0_ggH_M125.tgz
+-rw-r--r--. 1 pgadow zh 528K Feb 20 08:28 /afs/cern.ch/work/p/pgadow/cms/analysis/hza/signals/01_gridpacks/gg_H_quark-mass-effects_el9_amd64_gcc12_CMSSW_13_3_0_ggH_M125.tgz
+
+Verify contents:
+  Grid files in tarball:
+-rw-r--r--. 1 pgadow zh  485 Feb 20 08:28 pwg-stat.dat
+-rw-r--r--. 1 pgadow zh   87 Feb 18 17:12 pwgcounters-st1-0001.dat
+-rw-r--r--. 1 pgadow zh   87 Feb 18 17:12 pwgcounters-st1-0002.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:12 pwgcounters-st1-0003.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:12 pwgcounters-st1-0004.dat
+-rw-r--r--. 1 pgadow zh   87 Feb 18 17:12 pwgcounters-st1-0005.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:12 pwgcounters-st1-0006.dat
+-rw-r--r--. 1 pgadow zh   87 Feb 18 17:12 pwgcounters-st1-0007.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:12 pwgcounters-st1-0008.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:14 pwgcounters-st1-0009.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:14 pwgcounters-st1-0010.dat
+-rw-r--r--. 1 pgadow zh   87 Feb 18 17:15 pwgcounters-st2-0001.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:15 pwgcounters-st2-0002.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:15 pwgcounters-st2-0003.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:15 pwgcounters-st2-0004.dat
+-rw-r--r--. 1 pgadow zh   87 Feb 18 17:17 pwgcounters-st2-0005.dat
+-rw-r--r--. 1 pgadow zh   87 Feb 18 17:17 pwgcounters-st2-0006.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:17 pwgcounters-st2-0007.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:17 pwgcounters-st2-0008.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:17 pwgcounters-st2-0009.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:17 pwgcounters-st2-0010.dat
+-rw-r--r--. 1 pgadow zh   87 Feb 18 17:18 pwgcounters-st3-0001.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:18 pwgcounters-st3-0002.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:18 pwgcounters-st3-0003.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:18 pwgcounters-st3-0004.dat
+-rw-r--r--. 1 pgadow zh   87 Feb 18 17:18 pwgcounters-st3-0005.dat
+-rw-r--r--. 1 pgadow zh   87 Feb 18 17:18 pwgcounters-st3-0006.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:18 pwgcounters-st3-0007.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:18 pwgcounters-st3-0008.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:27 pwgcounters-st3-0009.dat
+-rw-r--r--. 1 pgadow zh  137 Feb 18 17:18 pwgcounters-st3-0010.dat
+-rw-r--r--. 1 pgadow zh 1.3K Feb 20 08:28 pwgcounters.dat
+-rw-r--r--. 1 pgadow zh  13K Feb 20 08:28 pwggrid.dat
+-rw-r--r--. 1 pgadow zh   30 Feb 18 15:48 pwgseeds.dat
+-rw-r--r--. 1 pgadow zh  146 Feb 20 08:28 pwgubound.dat
+-rw-r--r--. 1 pgadow zh 4.1K Feb 20 08:08 pwgxgrid.dat
+  Beam energy:
+ebeam1 6800     ! energy of beam 1
+ebeam2 6800    ! energy of beam 2
+==========================================
