@@ -15,6 +15,7 @@ POWHEG-BOX-V2/
 02_signal_production/scripts/fullchain_*/
 
 # CRAB runtime artifacts
+02_signal_production/crab_configs/
 02_signal_production/scripts/crab_projects_*/
 02_signal_production/scripts/crab.log
 
