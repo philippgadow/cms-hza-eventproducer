@@ -10,7 +10,7 @@ Monte Carlo signal sample production for the rare Higgs boson decay H → Za at 
 02_signal_production/   CMS full chain via ExternalLHEProducer + Pythia8
                            H(125) → Z(23) + a(36)
                            Z → ℓℓ,  a → hadrons
-                        LHE → GEN → SIM → DIGI → HLT → RECO → MiniAOD → NanoAOD
+                        LHE → GEN → SIM → DIGI → HLT → RECO → MiniAOD → NanoAOD and BTVNano with all PFlow Candidates
 ```
 
 ## Quick Start

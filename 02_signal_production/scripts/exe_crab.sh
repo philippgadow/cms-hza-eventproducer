@@ -8,6 +8,7 @@ ARCH="el9_amd64_gcc12"
 RELEASE_GS="CMSSW_14_0_19"          # LHE + GEN + SIM
 RELEASE_DR="CMSSW_14_0_21"          # DIGI + HLT + RECO
 RELEASE_MINI="CMSSW_15_0_2"         # MiniAOD + NanoAOD
+RELEASE_BTVNANO="CMSSW_15_0_18"     # BTV NanoAOD (allPF)
 
 GT_GS="140X_mcRun3_2024_realistic_v26"
 GT_DR="140X_mcRun3_2024_realistic_v26"
@@ -22,6 +23,7 @@ CAMPAIGN_DR="RunIII2024Summer24DRPremix"
 CAMPAIGN_RECO="RunIII2024Summer24RECO"
 CAMPAIGN_MINI="RunIII2024Summer24MiniAODv6"
 CAMPAIGN_NANO="RunIII2024Summer24NanoAODv15"
+CAMPAIGN_BTVNANO="RunIII2024Summer24BTVNanoAllPF"
 # ─────────────────────────────────────────────────────────────────────────────
 
 JOBINDEX=${CRAB_Id:-0}  # provided by CRAB runtime environment
@@ -238,6 +240,43 @@ cmsDriver.py \
 
 ls -lh *.root
 
+############ BTV NanoAOD (allPF) ############
+# Produces NanoAOD with full PF candidate collection for a reconstruction
+export SCRAM_ARCH=$ARCH
+source /cvmfs/cms.cern.ch/cmsset_default.sh
+export RELEASE=$RELEASE_BTVNANO
+
+if [ -r $RELEASE/src ]; then
+  echo "Release $RELEASE already exists"
+else
+  scram p CMSSW $RELEASE
+fi
+
+cd $RELEASE/src
+eval $(scram runtime -sh)
+cd $WORKDIR
+
+echo ""
+echo "Running cmsDriver for BTV NanoAOD (allPF) step..."
+echo ""
+
+cmsDriver.py \
+  --python_filename "${CAMPAIGN_BTVNANO}_${NAME}_cfg.py" \
+  --eventcontent NANOAODSIM \
+  --customise Configuration/DataProcessing/Utils.addMonitoring,PhysicsTools/NanoAOD/custom_btv_cff.BTVCustomNanoAOD_allPF \
+  --datatier NANOAODSIM \
+  --filein "file:${CAMPAIGN_MINI}_${NAME}_${JOBINDEX}.root" \
+  --fileout "file:${CAMPAIGN_BTVNANO}_${NAME}_${JOBINDEX}.root" \
+  --conditions $GT_MINI \
+  --step NANO \
+  --geometry DB:Extended \
+  --era $ERA \
+  --mc \
+  --nThreads $NTHREAD \
+  -n $NEVENTS || exit $?
+
+ls -lh *.root
+
 # Clean up intermediate files to save transfer bandwidth
 rm -f ${CAMPAIGN_GS}_${NAME}_${JOBINDEX}.root
 rm -f ${CAMPAIGN_DR}_${NAME}_${JOBINDEX}.root
@@ -246,18 +285,20 @@ rm -f ${CAMPAIGN_RECO}_${NAME}_${JOBINDEX}.root
 # Rename to fixed output names expected by CRAB config
 mv ${CAMPAIGN_MINI}_${NAME}_${JOBINDEX}.root ${CAMPAIGN_MINI}_${NAME}.root
 mv ${CAMPAIGN_NANO}_${NAME}_${JOBINDEX}.root ${CAMPAIGN_NANO}_${NAME}.root
+mv ${CAMPAIGN_BTVNANO}_${NAME}_${JOBINDEX}.root ${CAMPAIGN_BTVNANO}_${NAME}.root
 
 echo ""
 echo "========================================"
 echo "Production completed successfully!"
 echo "========================================"
 echo "Output files:"
-ls -lh ${CAMPAIGN_MINI}_${NAME}.root ${CAMPAIGN_NANO}_${NAME}.root
+ls -lh ${CAMPAIGN_MINI}_${NAME}.root ${CAMPAIGN_NANO}_${NAME}.root ${CAMPAIGN_BTVNANO}_${NAME}.root
 
 # Create a valid FrameworkJobReport.xml for CRAB
 # (scriptExe jobs need this so CRAB can parse the job outcome and stage out output)
 MINIAOD_FILE="${CAMPAIGN_MINI}_${NAME}.root"
 NANOAOD_FILE="${CAMPAIGN_NANO}_${NAME}.root"
+BTVNANO_FILE="${CAMPAIGN_BTVNANO}_${NAME}.root"
 cat > FrameworkJobReport.xml << XMLEOF
 <FrameworkJobReport>
 <File>
@@ -279,6 +320,20 @@ cat > FrameworkJobReport.xml << XMLEOF
   <PFN>${NANOAOD_FILE}</PFN>
   <Catalog/>
   <ModuleLabel>NanoAODoutput</ModuleLabel>
+  <GUID>$(python3 -c "import uuid; print(str(uuid.uuid4()).upper())")</GUID>
+  <OutputModuleClass>PoolOutputModule</OutputModuleClass>
+  <TotalEvents>${NEVENTS}</TotalEvents>
+  <BranchHash>0</BranchHash>
+  <Runs>
+  </Runs>
+  <Inputs>
+  </Inputs>
+</File>
+<File>
+  <LFN/>
+  <PFN>${BTVNANO_FILE}</PFN>
+  <Catalog/>
+  <ModuleLabel>BTVNanoAODoutput</ModuleLabel>
   <GUID>$(python3 -c "import uuid; print(str(uuid.uuid4()).upper())")</GUID>
   <OutputModuleClass>PoolOutputModule</OutputModuleClass>
   <TotalEvents>${NEVENTS}</TotalEvents>

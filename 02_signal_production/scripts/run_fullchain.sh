@@ -8,6 +8,7 @@
 #   2) RECO → AOD                  (CMSSW_14_0_21)
 #   3) MiniAOD v6                  (CMSSW_15_0_2)
 #   4) NanoAOD v15                 (CMSSW_15_0_2)
+#   5) BTV NanoAOD allPF           (CMSSW_15_1_0)
 #
 # Usage:
 #   source ../setup.sh   # set up CMSSW_14_0_19 environment first
@@ -33,11 +34,13 @@ CAMPAIGN_GS="RunIII2024Summer24wmLHEGS"
 CAMPAIGN_DR="RunIII2024Summer24DRPremix"
 CAMPAIGN_MINI="RunIII2024Summer24MiniAODv6"
 CAMPAIGN_NANO="RunIII2024Summer24NanoAODv15"
+CAMPAIGN_BTVNANO="RunIII2024Summer24BTVNanoAllPF"
 
 # CMSSW releases and global tags
 CMSSW_GS="CMSSW_14_0_19"
 CMSSW_DR="CMSSW_14_0_21"
 CMSSW_MINI="CMSSW_15_0_2"
+CMSSW_BTVNANO="CMSSW_15_0_18"
 
 GT_GS="140X_mcRun3_2024_realistic_v26"
 GT_DR="140X_mcRun3_2024_realistic_v26"
@@ -72,6 +75,7 @@ FILE_DR="${CAMPAIGN_DR}_${SAMPLE}.root"
 FILE_RECO="${CAMPAIGN_DR}_RECO_${SAMPLE}.root"
 FILE_MINI="${CAMPAIGN_MINI}_${SAMPLE}.root"
 FILE_NANO="${CAMPAIGN_NANO}_${SAMPLE}.root"
+FILE_BTVNANO="${CAMPAIGN_BTVNANO}_${SAMPLE}.root"
 
 # ─── Create working directory ────────────────────────────────────────────────
 WORKDIR="$SCRIPT_DIR/fullchain_$(date +%Y%m%d_%H%M%S)"
@@ -288,6 +292,35 @@ cmsDriver.py \
     -n "$NEVENTS" || exit $?
 
 echo "  ✓ NanoAOD done: $(ls -lh ${FILE_NANO} | awk '{print $5}')"
+echo ""
+fi
+
+# ═════════════════════════════════════════════════════════════════════════════
+# STEP 5: BTV NanoAOD (allPF)
+# ═════════════════════════════════════════════════════════════════════════════
+if [ "$SKIP_TO" -le 5 ]; then
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  STEP 5: BTV NanoAOD allPF  ($CMSSW_BTVNANO)"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+setup_cmssw "$CMSSW_BTVNANO"
+
+cmsDriver.py \
+    --python_filename "${CAMPAIGN_BTVNANO}_cfg.py" \
+    --eventcontent NANOAODSIM \
+    --customise Configuration/DataProcessing/Utils.addMonitoring,PhysicsTools/NanoAOD/custom_btv_cff.BTVCustomNanoAOD_allPF \
+    --datatier NANOAODSIM \
+    --filein "file:${FILE_MINI}" \
+    --fileout "file:${FILE_BTVNANO}" \
+    --conditions "$GT_MINI" \
+    --step NANO \
+    --era Run3_2024 \
+    --scenario pp \
+    --mc \
+    --nThreads "$NTHREADS" \
+    -n "$NEVENTS" || exit $?
+
+echo "  ✓ BTV NanoAOD done: $(ls -lh ${FILE_BTVNANO} | awk '{print $5}')"
 echo ""
 fi
 

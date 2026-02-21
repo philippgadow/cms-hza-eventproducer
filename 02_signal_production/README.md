@@ -1,6 +1,6 @@
 # Signal Production: ggH → H → Za
 
-CMS GEN-SIM production workflow for the rare Higgs decay H → Za, using POWHEG gridpacks with Pythia8 BSM decay configuration.
+CMS MC production workflow for the rare Higgs decay H → Za, using POWHEG gridpacks with Pythia8 BSM decay configuration. Produces MiniAODv6, NanoAODv15 and BTV NanoAOD (with full PF candidate collection) output.
 
 ## Physics Process
 
@@ -61,8 +61,12 @@ Runs 100 events through the complete CMS production chain:
 | 1 | DIGI + L1 + DIGI2RAW + HLT:2024v14 | 14_0_21 | 140X_mcRun3_2024_realistic_v26 |
 | 2 | RAW2DIGI + RECO | 14_0_21 | 140X_mcRun3_2024_realistic_v26 |
 | 3 | MiniAOD v6 (PAT) | 15_0_2 | 150X_mcRun3_2024_realistic_v2 |
-| 4 | NanoAOD v15 (NANO) | 15_0_2 | 150X_mcRun3_2024_realistic_v2 |
+| 4 | NanoAOD v15 (NANO) | 15_0_2 | 150X_mcRun3_2024_realistic_v2 || 5 | BTV NanoAOD allPF (NANO) | 15_0_18 | 150X_mcRun3_2024_realistic_v2 |
 
+Three output files are produced per job:
+- **MiniAODv6** — full event content for custom analysis
+- **NanoAODv15** — standard flat ntuple format
+- **BTV NanoAOD allPF** — NanoAOD with full `PFCands` collection (`BTVCustomNanoAOD_allPF`)
 ### 4. CRAB Submission
 
 ```bash
@@ -134,9 +138,10 @@ Validated with 100 events in NanoAOD (Feb 2026): 79% gg, 20% μμ, 1% dd̄ — s
 | CMSSW (GEN-SIM) | 14_0_19 |
 | CMSSW (DIGI+HLT+RECO) | 14_0_21 |
 | CMSSW (MiniAOD+NanoAOD) | 15_0_2 |
+| CMSSW (BTV NanoAOD allPF) | 15_0_18 |
 | Architecture | el9_amd64_gcc12 |
 | Conditions (steps 0–2) | 140X_mcRun3_2024_realistic_v26 |
-| Conditions (steps 3–4) | 150X_mcRun3_2024_realistic_v2 |
+| Conditions (steps 3–5) | 150X_mcRun3_2024_realistic_v2 |
 | HLT menu | 2024v14 |
 | Beam spot | DBrealistic |
 | Era | Run3_2024 |
@@ -184,6 +189,7 @@ These are centralized at the top of **`scripts/exe_crab.sh`**, lines 9–27:
 | `RELEASE_GS` | `CMSSW_14_0_19` | Release for LHE + GEN + SIM |
 | `RELEASE_DR` | `CMSSW_14_0_21` | Release for DIGI + HLT + RECO |
 | `RELEASE_MINI` | `CMSSW_15_0_2` | Release for MiniAOD + NanoAOD |
+| `RELEASE_BTVNANO` | `CMSSW_15_0_18` | Release for BTV NanoAOD (allPF) |
 | `GT_GS` | `140X_mcRun3_2024_realistic_v26` | Global tag for GEN-SIM |
 | `GT_DR` | `140X_mcRun3_2024_realistic_v26` | Global tag for DIGI + HLT + RECO |
 | `GT_MINI` | `150X_mcRun3_2024_realistic_v2` | Global tag for MiniAOD + NanoAOD |
@@ -210,10 +216,11 @@ In **`scripts/exe_crab.sh`** (lines 23–27) and **`scripts/submit_crab.sh`** (l
 | `CAMPAIGN_RECO` | `RunIII2024Summer24RECO` | `exe_crab.sh` |
 | `CAMPAIGN_MINI` | `RunIII2024Summer24MiniAODv6` | `exe_crab.sh` + `submit_crab.sh` (outputFiles) |
 | `CAMPAIGN_NANO` | `RunIII2024Summer24NanoAODv15` | `exe_crab.sh` + `submit_crab.sh` (outputFiles) |
+| `CAMPAIGN_BTVNANO` | `RunIII2024Summer24BTVNanoAllPF` | `exe_crab.sh` + `submit_crab.sh` (outputFiles) |
 
-> **Important**: The `outputFiles` list in `submit_crab.sh` (line 71–72) must match the
-> `CAMPAIGN_MINI` and `CAMPAIGN_NANO` naming used in `exe_crab.sh`. If you change campaign
-> names, update both files.
+> **Important**: The `outputFiles` list in `submit_crab.sh` must match the
+> `CAMPAIGN_MINI`, `CAMPAIGN_NANO`, and `CAMPAIGN_BTVNANO` naming used in `exe_crab.sh`.
+> If you change campaign names, update both files.
 
 ### 5. Resource settings (tune as needed)
 
@@ -243,4 +250,5 @@ Must match an actual tarball in `01_gridpacks/`. If generating a new gridpack
 - [POWHEG-BOX](https://powhegbox.mib.infn.it/)
 - [Pythia 8](https://pythia.org/)
 - POWHEG gg→H: [arXiv:1202.5475](https://arxiv.org/abs/1202.5475)
+- BTV NanoAOD allPF: [btvNanoAllPF](https://github.com/philippgadow/btvNanoAllPF) (`BTVCustomNanoAOD_allPF` customise for PF candidates)
 - ATLAS H→Za: [arXiv:2411.16361](https://arxiv.org/abs/2411.16361), [arXiv:2004.01678](https://arxiv.org/abs/2004.01678)
