@@ -26,6 +26,9 @@ POWHEG-BOX-V2/
 # ROOT files in top-level (stray outputs)
 *.root
 
+# Plots
+*.png
+
 # Python bytecode
 __pycache__/
 *.pyc
