@@ -37,6 +37,10 @@ vi submit.sh
 # 4. Submit to CRAB
 ./submit.sh --format btvnano --submit
 ./submit.sh --format bphnano --submit
+
+# 5. Monitor jobs (mrCrabs)
+./call_mrCrabs.sh              # status overview
+./call_mrCrabs.sh --resubmit   # auto-resubmit failed jobs
 ```
 
 ## Files

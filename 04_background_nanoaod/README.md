@@ -34,6 +34,10 @@ source setup.sh
 
 # 4. (Optional) Use a custom dataset list
 ./submit.sh --dataset-file my_datasets.txt --submit
+
+# 5. Monitor jobs (mrCrabs)
+./call_mrCrabs.sh              # status overview
+./call_mrCrabs.sh --resubmit   # auto-resubmit failed jobs
 ```
 
 ## Files

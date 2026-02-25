@@ -78,10 +78,12 @@ Submits all 10 mass points (100 jobs × 1000 events = 100k events per mass point
 
 ### 4. Monitoring
 
+Use [mrCrabs](https://github.com/JanvanderLinden/mrCrabs) for a summary table of all jobs:
+
 ```bash
-crab status -d crab_projects_RunIII2024Summer24/crab_*
-crab resubmit crab_projects_RunIII2024Summer24/crab_<sample>
-crab getlog crab_projects_RunIII2024Summer24/crab_<sample>
+cd scripts
+./call_mrCrabs.sh              # status overview
+./call_mrCrabs.sh --resubmit   # auto-resubmit failed jobs
 ```
 
 ## Generator Fragment

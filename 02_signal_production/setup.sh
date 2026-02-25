@@ -66,6 +66,8 @@ fi
 source /cvmfs/cms.cern.ch/common/crab-setup.sh
 voms-proxy-init -rfc -voms cms -valid 192:00
 
+cd ../../scripts
+
 echo ""
 echo "============================================"
 echo "Setup complete!"
@@ -75,11 +77,11 @@ echo "You are now in: $PWD"
 echo ""
 echo "Next steps:"
 echo "1. For local testing:"
-echo "   cd ../../scripts && ./test_local.sh"
+echo "   ./test_local.sh"
 echo ""
 echo "2. For CRAB submission:"
-echo "   cd ../../scripts && ./submit_crab.sh"
+echo "   ./submit_crab.sh"
 echo ""
 echo "Gridpack location:"
-echo "  ../01_gridpacks/gg_H_quark-mass-effects_el9_amd64_gcc12_CMSSW_13_3_0_ggH_M125.tgz"
+echo "  ../../01_gridpacks/gg_H_quark-mass-effects_el9_amd64_gcc12_CMSSW_13_3_0_ggH_M125.tgz"
 echo ""

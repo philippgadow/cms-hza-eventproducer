@@ -84,6 +84,16 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+echo ""
+echo "    (\/)  (\/)   "
+echo "    ( o    o)    Mr. CRABs says:"
+echo "     \\    //     \"Money money money!\""
+echo "      \\  //      \"Submit those jobs!\""
+echo "    ===\\//===    "
+echo "   /  /    \\  \\  "
+echo "  /  / \\  / \\  \\ "
+echo "     /  \\/  \\    "
+echo ""
 echo "========================================"
 echo "Background btvNanoAllPF Reprocessing"
 echo "========================================"
@@ -180,6 +190,13 @@ done < "$DATASET_FILE"
 echo "========================================"
 echo "Summary: ${N_OK}/${N_TOTAL} configs created, ${N_FAIL} failed"
 echo "========================================"
+
+if [ $N_FAIL -eq 0 ]; then
+    echo "  🦀 Mr. CRABs: \"I like money! All ${N_OK} datasets ready!\""
+else
+    echo "  🦀 Mr. CRABs: \"You're spending all me money! ${N_FAIL} failed!\""
+fi
+echo ""
 
 if ! $AUTO_SUBMIT; then
     echo ""
