@@ -18,6 +18,13 @@ POWHEG-BOX-V2/
 02_signal_production/crab_configs/
 02_signal_production/scripts/crab_projects_*/
 02_signal_production/scripts/crab.log
+03_nanoaod/crab_projects_*/
+03_nanoaod/crab_btvnano_*.py
+03_nanoaod/crab_bphnano_*.py
+
+# Auto-generated cmsDriver configs (reproducible from setup.sh)
+03_nanoaod/btvnano_cfg.py
+03_nanoaod/bphnano_cfg.py
 
 # Compressed and raw logs
 *.log

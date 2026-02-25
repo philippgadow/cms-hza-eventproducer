@@ -8,9 +8,13 @@ Monte Carlo signal sample production for the rare Higgs boson decay H → Za at 
 01_gridpacks/           POWHEG NLO gridpack (gg → H) at √s = 13.6 TeV
       │                    ↓
 02_signal_production/   CMS full chain via ExternalLHEProducer + Pythia8
-                           H(125) → Z(23) + a(36)
-                           Z → ℓℓ,  a → hadrons
-                        LHE → GEN → SIM → DIGI → HLT → RECO → MiniAOD → NanoAOD and BTVNano with all PFlow Candidates
+      │                    H(125) → Z(23) + a(36)
+      │                    Z → ℓℓ,  a → hadrons
+      │                 LHE → GEN → SIM → DIGI → HLT → RECO → MiniAOD → NanoAOD
+      │                    ↓ (MiniAOD)
+03_nanoaod/             Custom NanoAOD reprocessing
+                           MiniAOD → BTV NanoAOD (allPF) for jet substructure
+                           MiniAOD → BPH NanoAOD for B-physics / displaced vertices
 ```
 
 ## Quick Start
@@ -39,8 +43,9 @@ cd scripts
 | CMSSW (GEN-SIM) | 14_0_19 (el9_amd64_gcc12) |
 | CMSSW (DIGI+HLT+RECO) | 14_0_21 (el9_amd64_gcc12) |
 | CMSSW (MiniAOD+NanoAOD) | 15_0_2 (el9_amd64_gcc12) |
+| CMSSW (BTV/BPH NanoAOD) | 15_0_18 (el9_amd64_gcc12) |
 | Conditions (steps 0–2) | 140X_mcRun3_2024_realistic_v26, Run3_2024 |
-| Conditions (steps 3–4) | 150X_mcRun3_2024_realistic_v2, Run3_2024 |
+| Conditions (steps 3–5) | 150X_mcRun3_2024_realistic_v2, Run3_2024 |
 | PDF | NNPDF31_nnlo_as_0118 |
 | Tune | CP5 |
 | Higgs decay | `25:addChannel = 1 1.0 100 23 36` (H → Z + a) |
