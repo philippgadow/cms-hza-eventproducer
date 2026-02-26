@@ -60,4 +60,4 @@ echo "   (=  o  o=)   🦀 Mr. CRABs is checking your jobs..."
 echo "   (  >    < )  "
 echo "    ---\"\"---   "
 echo ""
-python3 "$MRCRABS" $RESUBMIT "${EXTRA_ARGS[@]}" "${SCRIPT_DIR}"/crab_projects_*/crab_*
+python3 "$MRCRABS" $RESUBMIT "${EXTRA_ARGS[@]}" crab_projects_*/crab_*
