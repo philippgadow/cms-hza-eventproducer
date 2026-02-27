@@ -1,0 +1,50 @@
+# 2024 Data datasets for H → Za analysis
+# One MiniAOD dataset path per line (used directly as CRAB inputDataset).
+# Lines starting with '#' are ignored.
+#
+# Campaign: MINIv6NANOv15 (ReReco)
+# Golden JSON: /eos/user/c/cmsdqm/www/CAF/certification/Collisions24/Cert_Collisions2024_378981_386951_Golden.json
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Muon0
+# ══════════════════════════════════════════════════════════════════════════════
+/Muon0/Run2024C-MINIv6NANOv15-v1/MINIAOD
+#/Muon0/Run2024D-MINIv6NANOv15-v1/MINIAOD
+#/Muon0/Run2024E-MINIv6NANOv15-v1/MINIAOD
+#/Muon0/Run2024F-MINIv6NANOv15-v1/MINIAOD
+#/Muon0/Run2024G-MINIv6NANOv15-v1/MINIAOD
+#/Muon0/Run2024H-MINIv6NANOv15-v1/MINIAOD
+#/Muon0/Run2024I-MINIv6NANOv15_v2-v1/MINIAOD
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Muon1
+# ══════════════════════════════════════════════════════════════════════════════
+/Muon1/Run2024C-MINIv6NANOv15-v1/MINIAOD
+#/Muon1/Run2024D-MINIv6NANOv15-v1/MINIAOD
+#/Muon1/Run2024E-MINIv6NANOv15-v1/MINIAOD
+#/Muon1/Run2024F-MINIv6NANOv15-v1/MINIAOD
+#/Muon1/Run2024G-MINIv6NANOv15-v2/MINIAOD
+#/Muon1/Run2024H-MINIv6NANOv15-v2/MINIAOD
+#/Muon1/Run2024I-MINIv6NANOv15_v2-v1/MINIAOD
+
+# ══════════════════════════════════════════════════════════════════════════════
+# EGamma0
+# ══════════════════════════════════════════════════════════════════════════════
+/EGamma0/Run2024C-MINIv6NANOv15-v1/MINIAOD
+#/EGamma0/Run2024D-MINIv6NANOv15-v1/MINIAOD
+#/EGamma0/Run2024E-MINIv6NANOv15-v1/MINIAOD
+#/EGamma0/Run2024F-MINIv6NANOv15-v1/MINIAOD
+#/EGamma0/Run2024G-MINIv6NANOv15-v2/MINIAOD
+#/EGamma0/Run2024H-MINIv6NANOv15-v2/MINIAOD
+#/EGamma0/Run2024I-MINIv6NANOv15_v2-v1/MINIAOD
+
+# ══════════════════════════════════════════════════════════════════════════════
+# EGamma1
+# ══════════════════════════════════════════════════════════════════════════════
+/EGamma1/Run2024C-MINIv6NANOv15-v1/MINIAOD
+#/EGamma1/Run2024D-MINIv6NANOv15-v1/MINIAOD
+#/EGamma1/Run2024E-MINIv6NANOv15-v1/MINIAOD
+#/EGamma1/Run2024F-MINIv6NANOv15-v1/MINIAOD
+#/EGamma1/Run2024G-MINIv6NANOv15-v2/MINIAOD
+#/EGamma1/Run2024H-MINIv6NANOv15-v1/MINIAOD
+#/EGamma1/Run2024I-MINIv6NANOv15_v2-v1/MINIAOD

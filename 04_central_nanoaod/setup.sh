@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Setup script for background btvNanoAllPF production (MiniAOD → NanoAOD)
-# Reprocesses centrally-produced MiniAOD into BTV NanoAOD with all PF candidates.
+# Setup script for btvNanoAllPF production (MiniAOD → NanoAOD)
+# Reprocesses centrally-produced MiniAOD (MC backgrounds & data) into
+# BTV NanoAOD with all PF candidates.
 #
 # Usage:
 #   source setup.sh
@@ -14,9 +15,9 @@ set -e
 # ─── Configuration ────────────────────────────────────────────────────────────
 RELEASE="CMSSW_15_0_18"
 ARCH="el9_amd64_gcc12"
-GT="150X_mcRun3_2024_realistic_v2"
 ERA="Run3_2024"
 NTHREADS=4
+# GT is set per-mode below (MC and data PSet generation)
 # ──────────────────────────────────────────────────────────────────────────────
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -42,7 +43,7 @@ if [ "$OS_VERSION" == "9" ]; then
 fi
 
 echo "============================================"
-echo "Setting up background btvNanoAllPF environment"
+echo "Setting up btvNanoAllPF environment (MC + data)"
 echo "============================================"
 
 export SCRAM_ARCH=$ARCH
@@ -69,17 +70,19 @@ echo ""
 # ─── Generate cmsDriver config ───────────────────────────────────────────────
 cd "$SCRIPT_DIR"
 
-PSET_BTV="btvnano_cfg.py"
-if [ ! -f "$PSET_BTV" ]; then
-    echo "Generating cmsDriver config: ${PSET_BTV} ..."
+# ── MC PSet ───────────────────────────────────────────────────────────────────
+GT_MC="150X_mcRun3_2024_realistic_v2"
+PSET_MC="btvnano_mc_cfg.py"
+if [ ! -f "$PSET_MC" ]; then
+    echo "Generating MC cmsDriver config: ${PSET_MC} ..."
     cmsDriver.py \
-        --python_filename "$PSET_BTV" \
+        --python_filename "$PSET_MC" \
         --eventcontent NANOAODSIM \
         --customise Configuration/DataProcessing/Utils.addMonitoring,PhysicsTools/NanoAOD/custom_btv_cff.BTVCustomNanoAOD_allPF \
         --datatier NANOAODSIM \
         --filein "file:dummy.root" \
         --fileout "file:btvnano_output.root" \
-        --conditions $GT \
+        --conditions $GT_MC \
         --step NANO \
         --geometry DB:Extended \
         --era $ERA \
@@ -87,9 +90,34 @@ if [ ! -f "$PSET_BTV" ]; then
         --nThreads $NTHREADS \
         -n -1 \
         --no_exec
-    echo "  → ${SCRIPT_DIR}/${PSET_BTV}"
+    echo "  → ${SCRIPT_DIR}/${PSET_MC}"
 else
-    echo "PSet already exists: ${SCRIPT_DIR}/${PSET_BTV}"
+    echo "MC PSet already exists: ${SCRIPT_DIR}/${PSET_MC}"
+fi
+
+# ── Data PSet ─────────────────────────────────────────────────────────────────
+GT_DATA="150X_dataRun3_v2"
+PSET_DATA="btvnano_data_cfg.py"
+if [ ! -f "$PSET_DATA" ]; then
+    echo "Generating data cmsDriver config: ${PSET_DATA} ..."
+    cmsDriver.py \
+        --python_filename "$PSET_DATA" \
+        --eventcontent NANOAOD \
+        --customise Configuration/DataProcessing/Utils.addMonitoring,PhysicsTools/NanoAOD/custom_btv_cff.BTVCustomNanoAOD_allPF \
+        --datatier NANOAOD \
+        --filein "file:dummy.root" \
+        --fileout "file:btvnano_output.root" \
+        --conditions $GT_DATA \
+        --step NANO \
+        --geometry DB:Extended \
+        --era $ERA \
+        --data \
+        --nThreads $NTHREADS \
+        -n -1 \
+        --no_exec
+    echo "  → ${SCRIPT_DIR}/${PSET_DATA}"
+else
+    echo "Data PSet already exists: ${SCRIPT_DIR}/${PSET_DATA}"
 fi
 
 echo ""
@@ -116,7 +144,9 @@ echo ""
 echo "You are now in: $PWD"
 echo ""
 echo "Next steps:"
-echo "  1. Check datasets.txt for the list of NanoAOD datasets"
-echo "  2. Dry run:   ./submit.sh"
-echo "  3. Submit:    ./submit.sh --submit"
+echo "  1. Check datasets_mc.txt / datasets_data.txt for the dataset lists"
+echo "  2. Dry run MC:   ./submit.sh"
+echo "  3. Submit MC:    ./submit.sh --submit"
+echo "  4. Dry run data: ./submit.sh --data"
+echo "  5. Submit data:  ./submit.sh --data --submit"
 echo ""
