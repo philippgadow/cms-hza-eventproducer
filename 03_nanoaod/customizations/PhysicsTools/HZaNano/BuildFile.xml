@@ -1,0 +1,12 @@
+<use name="FWCore/Framework"/>
+<use name="FWCore/ParameterSet"/>
+<use name="FWCore/Utilities"/>
+<use name="DataFormats/Common"/>
+<use name="DataFormats/Candidate"/>
+<use name="DataFormats/PatCandidates"/>
+<use name="DataFormats/HepMCCandidate"/>
+<use name="DataFormats/Math"/>
+<use name="DataFormats/NanoAOD"/>
+<use name="PhysicsTools/JetMCUtils"/>
+<use name="PhysicsTools/NanoAOD"/>
+<flags EDM_PLUGIN="1"/>

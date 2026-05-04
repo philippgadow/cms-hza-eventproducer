@@ -5,11 +5,12 @@
 #
 # Supported formats:
 #   btvnano  — BTV NanoAOD with all PF candidates (PFCands)
+#   hzanano  — BTV NanoAOD plus extended H→Za gen truth ancestry
 #   bphnano  — BPH NanoAOD with B-physics collections (MuMu, tracks, V0s, ...)
 #
 # Usage:
-#   ./submit.sh --format btvnano             # dry run
-#   ./submit.sh --format bphnano --submit    # generate configs and submit
+#   ./submit.sh --format hzanano             # dry run
+#   ./submit.sh --format hzanano --submit    # generate configs and submit
 
 set -e
 
@@ -46,16 +47,16 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         -h|--help)
-            echo "Usage: ./submit.sh --format <btvnano|bphnano> [--submit]"
+            echo "Usage: ./submit.sh --format <btvnano|hzanano|bphnano> [--submit]"
             echo ""
             echo "Options:"
-            echo "  --format <fmt>  NanoAOD format: btvnano or bphnano (required)"
+            echo "  --format <fmt>  NanoAOD format: btvnano, hzanano, or bphnano (required)"
             echo "  --submit        Submit CRAB jobs (default: dry run only)"
             exit 0
             ;;
         *)
             echo "ERROR: Unknown argument: $1"
-            echo "Usage: ./submit.sh --format <btvnano|bphnano> [--submit]"
+            echo "Usage: ./submit.sh --format <btvnano|hzanano|bphnano> [--submit]"
             exit 1
             ;;
     esac
@@ -63,7 +64,7 @@ done
 
 if [ -z "$FORMAT" ]; then
     echo "ERROR: --format is required"
-    echo "Usage: ./submit.sh --format <btvnano|bphnano> [--submit]"
+    echo "Usage: ./submit.sh --format <btvnano|hzanano|bphnano> [--submit]"
     exit 1
 fi
 
@@ -76,6 +77,13 @@ case "$FORMAT" in
         CRAB_PREFIX="crab_btvnano"
         FORMAT_LABEL="BTV NanoAOD (allPF)"
         ;;
+    hzanano)
+        PSET_NAME="hzanano_cfg.py"
+        OUTPUT_FILE="hzanano_output.root"
+        CAMPAIGN_TAG="RunIII2024Summer24HZANanoAllPF"
+        CRAB_PREFIX="crab_hzanano"
+        FORMAT_LABEL="HZa NanoAOD (allPF + extended gen truth)"
+        ;;
     bphnano)
         PSET_NAME="bphnano_cfg.py"
         OUTPUT_FILE="bphnano_output.root"
@@ -84,7 +92,7 @@ case "$FORMAT" in
         FORMAT_LABEL="BPH NanoAOD"
         ;;
     *)
-        echo "ERROR: Unknown format '${FORMAT}'. Must be 'btvnano' or 'bphnano'."
+        echo "ERROR: Unknown format '${FORMAT}'. Must be 'btvnano', 'hzanano', or 'bphnano'."
         exit 1
         ;;
 esac

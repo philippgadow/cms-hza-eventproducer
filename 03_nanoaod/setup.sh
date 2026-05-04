@@ -1,15 +1,20 @@
 #!/bin/bash
 
-# Setup script for custom NanoAOD reprocessing (BTV NanoAOD allPF & BPH NanoAOD)
+# Setup script for custom NanoAOD reprocessing (BTV, HZa, and BPH NanoAOD)
 # Reprocesses existing MiniAOD files into specialised NanoAOD formats.
 #
 # Usage:
 #   source setup.sh
 #
-# This sets up CMSSW_15_0_18, generates the cmsDriver configs for both
-# BTV NanoAOD and BPH NanoAOD, and initialises the grid proxy + CRAB.
+# This sets up CMSSW_15_0_18, installs the local HZa NanoAOD customisation,
+# generates the cmsDriver configs, and initialises the grid proxy + CRAB.
 
-set -e
+# Important: this script is typically sourced.
+# Do not enable `set -e` in the caller's interactive shell, otherwise
+# non-zero returns from completion helpers can terminate the terminal.
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+    set -e
+fi
 
 # ─── Configuration ────────────────────────────────────────────────────────────
 RELEASE="CMSSW_15_0_18"
@@ -66,6 +71,25 @@ echo "SCRAM_ARCH: $SCRAM_ARCH"
 echo "CMSSW_BASE: $CMSSW_BASE"
 echo ""
 
+# ─── Install local HZa NanoAOD customisation ─────────────────────────────────
+CUSTOM_SRC="${SCRIPT_DIR}/customizations/PhysicsTools/HZaNano"
+CUSTOM_DST="${CMSSW_BASE}/src/PhysicsTools/HZaNano"
+
+if [ -d "$CUSTOM_SRC" ]; then
+    echo "Installing local HZa NanoAOD customisation into CMSSW..."
+    mkdir -p "${CMSSW_BASE}/src/PhysicsTools"
+    rm -rf "$CUSTOM_DST"
+    cp -r "$CUSTOM_SRC" "$CUSTOM_DST"
+    echo "Building local CMSSW python package..."
+    scram b -j $NTHREADS
+    cd "$SCRIPT_DIR"
+    echo "  → Installed: ${CUSTOM_DST}"
+    echo ""
+else
+    echo "WARNING: Local HZa NanoAOD customisation not found at ${CUSTOM_SRC}"
+    echo ""
+fi
+
 # ─── Generate cmsDriver configs ──────────────────────────────────────────────
 cd "$SCRIPT_DIR"
 
@@ -93,7 +117,31 @@ else
     echo "PSet already exists: ${SCRIPT_DIR}/${PSET_BTV}"
 fi
 
-# 2. BPH NanoAOD — B-physics collections (dimuon, tracks, V0s, B→K/Kshort/Lambda)
+# 2. HZa NanoAOD — BTV allPF plus extended H->Za gen truth ancestry
+PSET_HZA="hzanano_cfg.py"
+if [ ! -f "$PSET_HZA" ]; then
+    echo "Generating cmsDriver config: ${PSET_HZA} ..."
+    cmsDriver.py \
+        --python_filename "$PSET_HZA" \
+        --eventcontent NANOAODSIM \
+        --customise Configuration/DataProcessing/Utils.addMonitoring,PhysicsTools/NanoAOD/custom_btv_cff.BTVCustomNanoAOD_allPF,PhysicsTools/HZaNano/custom_hza_cff.HZaCustomNanoAOD \
+        --datatier NANOAODSIM \
+        --filein "file:dummy.root" \
+        --fileout "file:hzanano_output.root" \
+        --conditions $GT \
+        --step NANO \
+        --geometry DB:Extended \
+        --era $ERA \
+        --mc \
+        --nThreads $NTHREADS \
+        -n -1 \
+        --no_exec
+    echo "  → ${SCRIPT_DIR}/${PSET_HZA}"
+else
+    echo "PSet already exists: ${SCRIPT_DIR}/${PSET_HZA}"
+fi
+
+# 3. BPH NanoAOD — B-physics collections (dimuon, tracks, V0s, B→K/Kshort/Lambda)
 PSET_BPH="bphnano_cfg.py"
 if [ ! -f "$PSET_BPH" ]; then
     echo "Generating cmsDriver config: ${PSET_BPH} ..."
@@ -142,10 +190,11 @@ echo "You are now in: $PWD"
 echo ""
 echo "Available NanoAOD formats:"
 echo "  btvnano  — BTV NanoAOD with all PF candidates (PFCands)"
+echo "  hzanano  — BTV NanoAOD + extended H→Za gen truth ancestry"
 echo "  bphnano  — BPH NanoAOD with B-physics collections (MuMu, tracks, V0s, ...)"
 echo ""
 echo "Next steps:"
 echo "  1. Edit REPROCESS_POINTS in submit.sh for the mass points you want"
-echo "  2. Dry run:   ./submit.sh --format btvnano"
-echo "  3. Submit:    ./submit.sh --format btvnano --submit"
+echo "  2. Dry run:   ./submit.sh --format hzanano"
+echo "  3. Submit:    ./submit.sh --format hzanano --submit"
 echo ""

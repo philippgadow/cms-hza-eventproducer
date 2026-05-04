@@ -13,8 +13,13 @@ Monte Carlo signal sample production for the rare Higgs boson decay H → Za at 
       │                 LHE → GEN → SIM → DIGI → HLT → RECO → MiniAOD → NanoAOD
       │                    ↓ (MiniAOD)
 03_nanoaod/             Custom NanoAOD reprocessing
+                           (signal samples)
                            MiniAOD → BTV NanoAOD (allPF) for jet substructure
                            MiniAOD → BPH NanoAOD for B-physics / displaced vertices
+                           MiniAOD → HZa NanoAOD custom sample with all PFCandidates and full signal gen particle ancestry
+      │
+04_central_nanoaod/     Central NanoAOD processing for backgrounds and data
+                           (background MC + 2024 collision data)
 ```
 
 ## Quick Start

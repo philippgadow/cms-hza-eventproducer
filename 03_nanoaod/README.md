@@ -7,6 +7,7 @@ Reprocess existing MiniAOD files into specialised NanoAOD formats for the H → 
 | Format | Customisation | Key content | Use case |
 |--------|--------------|-------------|----------|
 | **BTV NanoAOD** (`btvnano`) | `BTVCustomNanoAOD_allPF` | All PF candidates (`PFCands`), BTV tagger inputs/outputs | Jet-substructure studies of light pseudoscalar *a* |
+| **HZa NanoAOD** (`hzanano`) | `BTVCustomNanoAOD_allPF` + `HZaCustomNanoAOD` | All PF candidates plus extended `GenPart` truth for H→Za | Track↔gen ancestry studies for signal pions/kaons |
 | **BPH NanoAOD** (`bphnano`) | `nanoAOD_customizeBPH` | Dimuon pairs, BPH tracks, V0s (K_S, Λ), B → K/Kshort/Lambda + ℓℓ | B-physics–style displaced-vertex reconstruction of *a* → μμ |
 
 ## Common Parameters
@@ -31,10 +32,12 @@ source setup.sh
 vi submit.sh
 
 # 3. Dry run — generates CRAB configs, lists input files
+./submit.sh --format hzanano
 ./submit.sh --format btvnano
 ./submit.sh --format bphnano
 
 # 4. Submit to CRAB
+./submit.sh --format hzanano --submit
 ./submit.sh --format btvnano --submit
 ./submit.sh --format bphnano --submit
 
@@ -47,11 +50,13 @@ vi submit.sh
 
 | File | Description |
 |------|-------------|
-| `setup.sh` | Sets up `CMSSW_15_0_18`, generates both `btvnano_cfg.py` and `bphnano_cfg.py` via cmsDriver, initialises grid proxy + CRAB |
-| `submit.sh` | Unified submission script — use `--format btvnano` or `--format bphnano` to select the NanoAOD flavour |
+| `setup.sh` | Sets up `CMSSW_15_0_18`, installs the local `PhysicsTools/HZaNano` customisation, generates `btvnano_cfg.py`, `hzanano_cfg.py`, and `bphnano_cfg.py` via cmsDriver, initialises grid proxy + CRAB |
+| `submit.sh` | Unified submission script — use `--format btvnano`, `--format hzanano`, or `--format bphnano` to select the NanoAOD flavour |
 | `btvnano_cfg.py` | Auto-generated cmsDriver config for BTV NanoAOD (created by `setup.sh`) |
+| `hzanano_cfg.py` | Auto-generated cmsDriver config for HZa NanoAOD (created by `setup.sh`) |
 | `bphnano_cfg.py` | Auto-generated cmsDriver config for BPH NanoAOD (created by `setup.sh`) |
 | `crab_btvnano_*.py` | Per-mass-point CRAB configs for BTV NanoAOD (created by `submit.sh`) |
+| `crab_hzanano_*.py` | Per-mass-point CRAB configs for HZa NanoAOD (created by `submit.sh`) |
 | `crab_bphnano_*.py` | Per-mass-point CRAB configs for BPH NanoAOD (created by `submit.sh`) |
 
 ## Configuration
@@ -92,6 +97,19 @@ cmsDriver.py \
     --mc --nThreads 4 -n -1 --no_exec
 ```
 
+**HZa NanoAOD:**
+```bash
+cmsDriver.py \
+    --python_filename hzanano_cfg.py \
+    --eventcontent NANOAODSIM \
+    --customise Configuration/DataProcessing/Utils.addMonitoring,PhysicsTools/NanoAOD/custom_btv_cff.BTVCustomNanoAOD_allPF,PhysicsTools/HZaNano/custom_hza_cff.HZaCustomNanoAOD \
+    --datatier NANOAODSIM \
+    --filein "file:dummy.root" --fileout "file:hzanano_output.root" \
+    --conditions 150X_mcRun3_2024_realistic_v2 \
+    --step NANO --geometry DB:Extended --era Run3_2024 \
+    --mc --nThreads 4 -n -1 --no_exec
+```
+
 **BPH NanoAOD:**
 ```bash
 cmsDriver.py \
@@ -121,6 +139,17 @@ XROOTD="root://dcache-cms-xrootd.desy.de:1094"
 xrdfs $XROOTD ls /store/user/$USER/ggH_HZa_signals/RunIII2024Summer24/<sample>/<campaign_tag>/
 ```
 
+## Local Dry Run
+
+For a quick local sanity check (without CRAB), run one of the generated PSets directly:
+
+```bash
+source setup.sh
+cmsRun hzanano_cfg.py maxEvents=20
+```
+
+Equivalent checks can be done for `btvnano_cfg.py` and `bphnano_cfg.py`.
+
 ## NanoAOD Content Details
 
 ### BTV NanoAOD (`btvnano`)
@@ -130,6 +159,21 @@ Adds to standard NanoAOD:
 - **`JetPFCands`** / **`FatJetPFCands`** — jet-constituent association tables
 - **`JetSVs`** / **`FatJetSVs`** — secondary vertex association
 - Extended jet tagger inputs/outputs (DeepJet, ParticleNet, UParT, RobustParT)
+
+### HZa NanoAOD (`hzanano`)
+
+Adds everything from `btvnano`, plus signal-oriented truth content:
+- **Extended `GenPart` selection** adds recursive H→Za retention on top of standard NanoAOD/BTV truth content
+- **Recursive H→Za truth retention** via `keep++ abs(pdgId) == 25/23/36`, keeping the Higgs, Z, pseudoscalar `a`, and descendants represented in `GenPart`
+- Existing BTV PF↔gen link remains available: `PFCands_genCandIdx → GenCands`
+- Extra `GenPart` vertex information (`vx`, `vy`, `vz`) from the BTV truth extension remains present
+
+**Note on `GenCands_genPartMotherIdx`:**
+The BTV's `GenCandMotherTableProducer` attempts to map packed gen candidates (in `GenCands`) to their mothers in `GenPart` via an `edm::Association` lookup. On signal MiniAOD samples with extended truth (like ours), this Association can become incomplete, causing an `InvalidReference` crash. For robustness, `hzanano` disables this extension table. This is a pragmatic tradeoff:
+- ✅ **Preserved**: Full H→Za truth ancestry in `GenPart` and `GenCands` remains intact, enabling track↔gen matching studies
+- ✅ **Preserved**: All PF candidate linking to gen (`PFCands_genCandIdx → GenCands`) is unaffected
+- ⚠️  **Disabled**: Direct GenCand→GenPart mother indices (`GenCands_genPartMotherIdx`) are not written
+- **Impact**: Analyses can still trace gen ancestry via `GenPart` (which has `genPartIdxMother` populated), or reconstruct it from PF matching
 
 ### BPH NanoAOD (`bphnano`)
 

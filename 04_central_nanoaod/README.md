@@ -7,7 +7,7 @@ Reprocess centrally-produced MiniAOD into **BTV NanoAOD with all PF candidates**
 ## Overview
 
 Two dataset lists are provided:
-- **`datasets_mc.txt`** — Drell-Yan background MC (`RunIII2024Summer24MiniAODv6`)
+- **`datasets_mc.txt`** — background MC (`RunIII2024Summer24MiniAODv6`)
 - **`datasets_data.txt`** — 2024 collision data (`MINIv6NANOv15` ReReco, eras C–I)
 
 The `submit.sh` script auto-selects the correct global tag, PSet (MC/data),
@@ -54,7 +54,7 @@ source setup.sh
 
 | File | Description |
 |------|-------------|
-| `datasets_mc.txt` | Background MC MiniAOD dataset paths (Drell-Yan, `MINIAODSIM`). |
+| `datasets_mc.txt` | Background MC MiniAOD dataset paths (`MINIAODSIM`): DY, tt̄ dilepton, ZZ, WZ, SM VBF Higgs. |
 | `datasets_data.txt` | 2024 data MiniAOD dataset paths (Muon0/1, EGamma0/1, eras C–I, `MINIAOD`). |
 | `setup.sh` | Sets up `CMSSW_15_0_18`, generates `btvnano_mc_cfg.py` + `btvnano_data_cfg.py`, grid proxy + CRAB |
 | `submit.sh` | Reads dataset list, generates CRAB configs, optionally submits. Use `--mc` (default) or `--data`. |
@@ -66,11 +66,15 @@ source setup.sh
 
 ### Background MC
 
-Currently configured Drell-Yan (powheg) samples from `RunIII2024Summer24MiniAODv6`:
+Currently configured from `RunIII2024Summer24MiniAODv6`:
 
-- **DY → ee**: 10 mass bins (10–50, 50–120, ..., 6000–∞ GeV)
-- **DY → μμ**: 10 mass bins
-- **DY → ττ**: 10 mass bins
+- **DY → μμ** (powheg): 10 mass bins
+- **DY → ee** (powheg): 10 mass bins
+- **DY → ττ** (powheg): 10 mass bins
+- **tt̄ → 2ℓ2ν** (powheg): 1 inclusive sample
+- **ZZ** (powheg): `2L2Q`, `4L`, `2L2Nu`
+- **WZ** (powheg): `3LNu`, `2L2Q`
+- **SM VBF Higgs**: `H→WW→2L2Nu`, `H→ZZ→4L`, `H→ττ`
 
 ### 2024 Collision Data
 
